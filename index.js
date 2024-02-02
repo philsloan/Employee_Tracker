@@ -1,6 +1,10 @@
 const db = require('./db/db');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+const dotenv = require('dotenv');
+
+dotenv.config();
+console.log(process.env.DB_HOST); // Access the variables using process.env
 
 // Initiates user prompt
 promptUser();
@@ -23,79 +27,68 @@ function promptUser() {
                 ]
             }
         ])
-        .then((data) => {
-            switch (data.selection) {
-                case 'View all departments':
-                    viewAllDepartments();
-                    break;
-
-                case 'View all roles':
-                    viewAllRoles();
-                    break;
-
-                case 'View all employees':
-                    viewAllEmployees();
-                    break;
-
-                case 'Add a department':
-                    addDepartment();
-                    break;
-
-                case 'Add a role':
-                    addRole();
-                    break;
-
-                case 'Add an employee':
-                    addEmployee();
-                    break;
-
-                case 'Update an employee role':
-                    updateEmployeeRole();
-                    break;
-            }
-        });
+        .then(handleUserSelection);
 }
 
-// Function to view all departments
+function handleUserSelection(data) {
+    switch (data.selection) {
+        case 'View all departments':
+            viewAllDepartments();
+            break;
+
+        case 'View all roles':
+            viewAllRoles();
+            break;
+
+        case 'View all employees':
+            viewAllEmployees();
+            break;
+
+        case 'Add a department':
+            addDepartment();
+            break;
+
+        case 'Add a role':
+            addRole();
+            break;
+
+        case 'Add an employee':
+            addEmployee();
+            break;
+
+        case 'Update an employee role':
+            updateEmployeeRole();
+            break;
+    }
+}
+
 function viewAllDepartments() {
-    db.query('SELECT * FROM department', function (err, results) {
-        displayResults(err, results);
-        promptUser();
-    });
+    executeQuery('SELECT * FROM department', viewAllDepartmentsCallback);
 }
 
-// Function to view all roles
 function viewAllRoles() {
-    db.query('SELECT * FROM role', function (err, results) {
-        displayResults(err, results);
-        promptUser();
-    });
+    executeQuery('SELECT * FROM role', viewAllRolesCallback);
 }
 
-// Function to view all employees
 function viewAllEmployees() {
     const query = `
-      SELECT
-        employees_with_managers.id AS employee_id,
-        employees_with_managers.first_name,
-        employees_with_managers.last_name,
-        employee_info.title,
-        employee_info.salary,
-        employee_info.department_name,
-        employees_with_managers.manager_name
-      FROM employee_info
-      JOIN employees_with_managers ON employee_info.role_id = employees_with_managers.role_id;
+        SELECT
+            employees_with_managers.id AS employee_id,
+            employees_with_managers.first_name,
+            employees_with_managers.last_name,
+            employee_info.title,
+            employee_info.salary,
+            employee_info.department_name,
+            employees_with_managers.manager_name
+        FROM employee_info
+        JOIN employees_with_managers ON employee_info.role_id = employees_with_managers.role_id;
     `;
 
-    db.query(query, function (err, results) {
-        displayResults(err, results);
-        promptUser();
-    });
+    executeQuery(query, viewAllEmployeesCallback);
 }
 
-// Function to add a department
 function addDepartment() {
-    return inquirer
+    inquirer
         .prompt([
             {
                 type: 'input',
@@ -103,24 +96,16 @@ function addDepartment() {
                 name: 'name'
             }
         ])
-        .then((data) => {
-            db.query('INSERT INTO department (name) VALUES (?)', data.name, function (err, results) {
-                console.log('\nNew department added. See below:');
-                viewAllDepartments();
-            });
-        });
+        .then(addDepartmentCallback);
 }
 
-// Function to add a role
 function addRole() {
     const departmentArray = [];
-
-    db.query('SELECT * FROM department', function (err, results) {
+    executeQuery('SELECT * FROM department', (err, results) => {
         for (let i = 0; i < results.length; i++) {
             departmentArray.push(results[i].name);
         }
-
-        return inquirer
+        inquirer
             .prompt([
                 {
                     type: 'input',
@@ -139,29 +124,98 @@ function addRole() {
                     choices: departmentArray
                 }
             ])
-            .then((data) => {
-                db.query('SELECT id FROM department WHERE department.name = ?', data.department, function (err, results) {
-                    const department_id = results[0].id;
-                    db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [data.title, data.salary, department_id], function (err, results) {
-                        console.log('\nNew role added. See below:');
-                        viewAllRoles();
-                    });
-                });
-            });
+            .then(addRoleCallback);
     });
 }
 
-// ... (other functions)
+function updateEmployeeRole() {
+    const roleArray = [];
+    const employeeArray = [];
+    executeQuery('SELECT * FROM role', (err, results) => {
+        for (let i = 0; i < results.length; i++) {
+            roleArray.push(results[i].title);
+        }
+        executeQuery('SELECT * FROM employee', (err, results) => {
+            for (let i = 0; i < results.length; i++) {
+                const employeeName = `${results[i].first_name} ${results[i].last_name}`;
+                employeeArray.push(employeeName);
+            }
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        message: 'Which employee do you want to update?',
+                        name: 'employee',
+                        choices: employeeArray
+                    },
+                    {
+                        type: 'list',
+                        message: "What is the employee's new role?",
+                        name: 'role',
+                        choices: roleArray
+                    },
+                ])
+                .then(updateEmployeeRoleCallback);
+        });
+    });
+}
 
-// Helper function to display query results
+function executeQuery(query, callback) {
+    db.query(query, callback);
+}
+
 function displayResults(err, results) {
     if (err) {
         console.error('Error:', err);
         return;
     }
-
     console.log('\n');
     console.table(results);
 }
 
-// ... (other functions)
+// Callbacks for query results
+function viewAllDepartmentsCallback(err, results) {
+    displayResults(err, results);
+    promptUser();
+}
+
+function viewAllRolesCallback(err, results) {
+    displayResults(err, results);
+    promptUser();
+}
+
+function viewAllEmployeesCallback(err, results) {
+    displayResults(err, results);
+    promptUser();
+}
+
+function addDepartmentCallback(data) {
+    db.query('INSERT INTO department (name) VALUES (?)', data.name, (err, results) => {
+        console.log('\nNew department added. See below:');
+        viewAllDepartments();
+    });
+}
+
+function addRoleCallback(data) {
+    db.query('SELECT id FROM department WHERE department.name = ?', data.department, (err, results) => {
+        const department_id = results[0].id;
+        db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [data.title, data.salary, department_id], (err, results) => {
+            console.log('\nNew role added. See below:');
+            viewAllRoles();
+        });
+    });
+}
+
+function updateEmployeeRoleCallback(data) {
+    db.query('SELECT id FROM role WHERE role.title = ?;', data.role, (err, results) => {
+        const role_id = results[0].id;
+        db.query('SELECT id FROM employee WHERE employee.first_name = ? AND employee.last_name = ?;', data.employee.split(" "), (err, results) => {
+            db.query('UPDATE employee SET role_id = ? WHERE id = ?;', [role_id, results[0].id], (err, results) => {
+                console.log('\nEmployee role updated. See below:');
+                viewAllEmployees();
+            });
+        });
+    });
+}
+
+

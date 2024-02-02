@@ -9,6 +9,10 @@ It tracks my Employees.
 
 ![screenshot](https://github.com/philsloan/Employee_Tracker/blob/main/Screenshot%202024-02-02%20at%2011.50.17%20AM.png)
 
+## Video Walkthrough 
+
+<link><https://drive.google.com/file/d/1S1BpTx9tvDAZGnBJvcQLn_ukMfm3kpj6/view>
+
 ## Table of Contents:
 - [Overview](#Overview)
 - [The Challenge](#The-Challenge)

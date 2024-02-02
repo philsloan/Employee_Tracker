@@ -76,6 +76,7 @@ THEN I am prompted to select an employee to update and their new role and this i
 ## Credits
 
 - Speed Run "Mod-12" by Drew Hoang for proper setup
+- Joe Mogavero github, SQL seeds, and schema set up
 
 
 ## License 

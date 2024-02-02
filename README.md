@@ -5,6 +5,9 @@
 ## Description:
 It tracks my Employees.
 
+## ScreenShot
+
+![screenshot](https://github.com/philsloan/Employee_Tracker/blob/main/Screenshot%202024-02-02%20at%2011.50.17%20AM.png)
 
 ## Table of Contents:
 - [Overview](#Overview)

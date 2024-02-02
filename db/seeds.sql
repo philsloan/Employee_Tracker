@@ -15,12 +15,12 @@ VALUES ("Operations Manager",120000, 1),
 
 -- Adding employee data
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Rufus", "Humphry", 1, null),
-    ("Lily", "VanDerWoodsen", 3, null),
-    ("Nate", "Archabald", 5, 2),
-    ("Blair", "Waldorf", 2, 3),
-    ("Serena", "VanDerWoodsen", 3, 3),
-    ("Dan", "Humphry", 4, 3);
+VALUES ("Phil", "Sloan", 1, null),
+    ("Phillip", "Slone", 3, null),
+    ("Bill", "schloan", 5, 2),
+    ("Jill ", "Zlone", 2, 3),
+    ("Lillian", "Sloane", 3, 3),
+    ("Dill", "Pickles", 4, 3);
 
 -- Adding views
 CREATE VIEW employee_info AS

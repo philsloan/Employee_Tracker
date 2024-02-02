@@ -128,6 +128,94 @@ function addRole() {
     });
 }
 
+function addEmployee() {
+    const roleArray = [];
+    const managerArray = ['None']; // You can modify this based on your actual data
+
+    // Fetch roles from the database
+    db.query('SELECT * FROM role', (err, roles) => {
+        if (err) {
+            console.error('Error fetching roles:', err);
+            return;
+        }
+
+        // Populate roleArray with role titles
+        roles.forEach((role) => {
+            roleArray.push(role.title);
+        });
+
+        // Fetch managers from the database
+        db.query('SELECT * FROM employee', (err, managers) => {
+            if (err) {
+                console.error('Error fetching managers:', err);
+                return;
+            }
+
+            // Populate managerArray with manager names
+            managers.forEach((manager) => {
+                const managerName = `${manager.first_name} ${manager.last_name}`;
+                managerArray.push(managerName);
+            });
+
+            // Prompt user for new employee details
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        message: "Enter the employee's first name:",
+                        name: 'first_name',
+                    },
+                    {
+                        type: 'input',
+                        message: "Enter the employee's last name:",
+                        name: 'last_name',
+                    },
+                    {
+                        type: 'list',
+                        message: "Select the employee's role:",
+                        name: 'role',
+                        choices: roleArray,
+                    },
+                    {
+                        type: 'list',
+                        message: "Select the employee's manager:",
+                        name: 'manager',
+                        choices: managerArray,
+                    },
+                ])
+                .then((data) => {
+                    // Find the role_id based on the selected role title
+                    const selectedRole = roles.find((role) => role.title === data.role);
+                    const role_id = selectedRole ? selectedRole.id : null;
+
+                    // Find the manager_id based on the selected manager name
+                    const selectedManager = managers.find((manager) => {
+                        const managerName = `${manager.first_name} ${manager.last_name}`;
+                        return managerName === data.manager;
+                    });
+                    const manager_id = selectedManager ? selectedManager.id : null;
+
+                    // Insert the new employee into the database
+                    db.query(
+                        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+                        [data.first_name, data.last_name, role_id, manager_id],
+                        (err, result) => {
+                            if (err) {
+                                console.error('Error adding employee:', err);
+                                return;
+                            }
+
+                            console.log('\nNew employee added. See below:');
+                            // Display the updated employee list (you can replace this with your own display logic)
+                            viewAllEmployees();
+                        }
+                    );
+                });
+        });
+    });
+}
+
+
 function updateEmployeeRole() {
     const roleArray = [];
     const employeeArray = [];

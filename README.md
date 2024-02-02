@@ -1,24 +1,29 @@
-# employee-Traker-Cli-DB
-SQL Challenge: Employee Tracker.
-Developers frequently have to create interfaces that allow non-developers to easily view and interact with information stored in databases. These interfaces are called content management systems (CMS).  
-A command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL.
+# Phil Sloan's Employee Tracker
 
-## Description
 
-This application allows the user to easily access the employee database and browse through the information while having command-line functionality to add and update the employee database. Through the backend development of Node and 4 packages, users can securely access all employee's data with some command-line functionality.
+  
+## Description:
+It tracks my Employees.
 
-## Table of Contents
 
-* User Story
-* Acceptance Criteria
-* Mock Up
-* Getting Started & Installation
-* Walkthrough
-* Test
-* Socials
+## Table of Contents:
+- [Overview](#Overview)
+- [The Challenge](#The-Challenge)
+- [Usage Information](#Usage-Information)
+- [Installation Process](#Installation)
+- [What I Learned](#What-I-Learned)
+- [Credits](#credits)
+- [License](#License)
+- [Author](#Author)
+
+
+# Overview
+
+## The Challenge:
+Develope an employee tracker app to help with managing the ammount of employees and their positions.
+
 
 ## User Story
-
 ```md
 AS A business owner
 I WANT to be able to view and manage the departments, roles, and employees in my company
@@ -26,7 +31,6 @@ SO THAT I can organize and plan my business
 ```
 
 ## Acceptance Criteria
-
 ```md
 GIVEN a command-line application that accepts user input
 WHEN I start the application
@@ -44,54 +48,66 @@ THEN I am prompted to enter the name, salary, and department for the role and th
 WHEN I choose to add an employee
 THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
 WHEN I choose to update an employee role
-THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
+THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 ```
 
-## Mock-Up
 
-The youtube link, attached in the following section (Getting Started & Installation) is the mockup of how the backend of the application is ran.
+## Installation
 
-**Getting Started**
----
-To use this application you first need to install all dependencies by navigating to the root folder and running
+1. Download inquire in the terminal.
+2. Use nom i inquirer@6.5.0 (our class standard)
+3. Build schema, then index, then seeds.
 
+
+## Usage Instructions
+
+1. Use schema.sql to create database and tables in mysql
+2. Seed the app
+3. quit mysql
+4. Start application in terminal
+
+## What I Learned
+
+- How to set up mysql
+- The usage of .gitignore
+- how to effectily use SQL
+- How to manage data
+
+## Credits
+
+- Speed Run "Mod-12" by Drew Hoang for proper setup
+
+
+## License 
+  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [Open Source Initiative Link](https://opensource.org/licenses/MIT)
+
+### Copyright © 2023 Phil Sloan
+```md
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
-npm install
-```
 
-We then need to create and populate the database with information.
+  
+## Author
 
-After navigating to the 'db' folder and logging in to mysql we do this by using
+Follow me on Github! 
 
-```
-source schema.sql
-```
+See you soon!
 
-and
-
-```
-source seeds.sql
-```
-
-Finally to initiate the application, we return to the root folder and use the command
-
-```
-node index.js
-```
-
-## Walkthrough
-```
-[https://youtu.be/YavWJomyF5Q](https://youtu.be/peLLxoLXimQ)
-```
-
-## Test
-
-```
-npm start
-```
-
-## Socials
-
-For details regarding the specific application, proceed to the repository: [https://github.com/joemogy/employee-Traker-Cli-DB](https://github.com/joemogy/employee-Traker-Cli-DB)
-
-For details regarding the Github profile, click on the link: https://github.com/Joemogy
+© 2023 [Phil Sloan]

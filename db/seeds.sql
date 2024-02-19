@@ -1,23 +1,22 @@
 -- Adding department data
 INSERT INTO department(name)
-VALUES ("Operations"), ("Marketing"), ("Sales"), ("Legal"), ("Tech");
+VALUES ("Marketing"), ("Finance"), ("Legal"), ("Engineering");
 
 -- Adding role data
 INSERT INTO role(title, salary, department_id)
-VALUES ("Operations Manager",120000, 1),
+VALUES ("Engineering Manager",150000, 4),
     ("Associate",75000, 1),
     ("Marketing Manager",125000, 2),
-    ("Salesman",90000, 3),
-    ("Lawyer",180000, 4),
-    ("Developer",135000, 5),
-    ("Intern",85000, 5),
-    ("DevOps",120000, 5);
+    ("Salesperson",95000, 2),
+    ("Lawyer",200000, 3),
+    ("Developer",155000, 4),
+    ("DevOps",125000, 4);
 
 -- Adding employee data
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Phil", "Sloan", 1, null),
     ("Phillip", "Slone", 3, null),
-    ("Bill", "schloan", 5, 2),
+    ("Bill", "schloan", 2, 2),
     ("Jill ", "Zlone", 2, 3),
     ("Lillian", "Sloane", 3, 3),
     ("Dill", "Pickles", 4, 3);
